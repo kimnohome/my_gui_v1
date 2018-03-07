@@ -7,13 +7,19 @@
 import pygame
 import os
 from Listener import *
+from Component import *
 from pygame.locals import *
-class Button(object):
-  def __init__(self, upimage, inimage, downimage,position):
+class Button(Component):
+  def __init__(self, upimage, inimage, downimage,position,size):
       self.imageUp = pygame.image.load(upimage).convert_alpha()
       self.imageIn = pygame.image.load(inimage).convert_alpha()
       self.imageDown = pygame.image.load(downimage).convert_alpha()
-      self.positionX ,self.positionY = position
+
+      self.imageUp = pygame.transform.scale(self.imageUp, size)
+      self.imageIn = pygame.transform.scale(self.imageIn, size)
+      self.imageDown = pygame.transform.scale(self.imageDown, size)
+
+      self.positionX, self.positionY = position
       self.imageWidth, self.imageHeight = self.imageUp.get_size()
       self.draw_position = (self.positionX - self.imageWidth / 2, self.positionY - self.imageHeight / 2)
       self.draw_image=self.imageUp
@@ -34,7 +40,7 @@ class Button(object):
       self.draw_image = self.imageUp
 
   def Update(self,screen):
-      screen.blit(self.draw_image,self.draw_position)
+      screen.blit(self.draw_image, self.draw_position)
 
   def onClick(self):
       pass
@@ -68,9 +74,12 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode((400,400),0,32)
     pygame.display.set_caption("Button test")
     class MyButton(Button):
+        def __init__(self, upimage, inimage, downimage,position,size):
+            super(MyButton, self).__init__(upimage, inimage, downimage,position,size)
+            # some special fundtion here
         def onClick(self):
             print '按了MyButton一下'
-    button = MyButton(upImageFilename, inImageFilename, downImageFilename, (150, 100))
+    button = MyButton(upImageFilename, inImageFilename, downImageFilename, (150, 100),(200,50))
     myButtonListener=ButtonListener(button)
     eventManager=EventManager()
     eventManager.addListener(myButtonListener)
