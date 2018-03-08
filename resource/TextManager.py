@@ -44,7 +44,7 @@ class TextManager(Component):  # no use,后面打算把TextManager弄成和Canva
 
 
 class Font_Brush(Component):  # used to define font instance
-    def __init__(self, surface_handle):
+    def __init__(self, surface_handle):#这里出错了，如何多态初始化，好像并不能有多个初始化函数python
         self.__surface_handle = surface_handle
         self.position = (0, 0)
         self.text = 'Love U Forever'
