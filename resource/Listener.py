@@ -11,22 +11,25 @@
 
 import pygame
 
+
 class Listener(object):
     def __init__(self):
         pass
-    def onChange(self,event):
+
+    def onChange(self, event):
         pass
+
 
 class EventManager(object):
     def __init__(self):
-        self.listenerList = [] #use list
+        self.listenerList = []  # use list
 
-    def addListener(self,listener):
+    def addListener(self, listener):
         self.listenerList.append(listener)
 
-    def removeListener(self,listener):
+    def removeListener(self, listener):
         self.listenerList.remove(listener)
 
-    def eventManage(self,event):
+    def eventManage(self, event):
         for listener in self.listenerList:
             listener.onChange(event)
