@@ -4,11 +4,16 @@
 # @Email   : 287480609@qq.com
 # @File    : Button.py
 # @Software: PyCharm Community Edition
+# 我第一个实现的部件，就是这个按钮，基本功能都已经实现
+# 现在还需要完成按钮的文字显示功能
+
 import pygame
 import os
 from Listener import *
 from Component import *
 from pygame.locals import *
+from TextManager import *
+from CanvasManager import *
 class Button(Component):
   def __init__(self, upimage, inimage, downimage,position,size):
       self.imageUp = pygame.image.load(upimage).convert_alpha()
