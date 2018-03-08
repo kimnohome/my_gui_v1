@@ -20,7 +20,7 @@ class Monitor(Component):
     def is_Overlap(self):
         super(Monitor, self).is_Overlap()
 
-    def Update(self):
+    def Update(self, screen):
         super(Monitor, self).Update()
 
 class MonitorListener(Listener):

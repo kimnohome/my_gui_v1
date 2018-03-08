@@ -15,5 +15,5 @@ class Component(object):
     def is_Overlap(self):  # judge that mouse in the component
         pass
 
-    def Update(self):  # method to update the image of the component
+    def Update(self, screen):  # method to update the image of the component
         pass
