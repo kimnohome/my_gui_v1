@@ -108,6 +108,12 @@ if __name__ == '__main__':
     pygame.display.set_caption("TextView test")  # 实现demo
     # 需要实例化TextView的一个子类
     txt = TextView(u'You know — one loves the sunset， when one is so sad---the little prince')
+    #txt = TextView(u'我要那天，再遮不住我眼')
+    project_file_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    #font_path = project_file_dir + '/assets/font/shaeryingbiti.ttf'
+    #font_path = project_file_dir + '/assets/font/fangzheng_youmaozai.ttf'
+    font_path = project_file_dir + '/assets/font/qiufu_kaiti.ttf'
+    txt.font_brush.setFont(font_path)
     # 需要实例化对应listener
     # 需要实例化eventmanager
     # 需要实例化CanvasManager
