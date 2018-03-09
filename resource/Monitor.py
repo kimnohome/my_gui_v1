@@ -36,7 +36,7 @@ class MonitorListener(Listener):
         # 鼠标点击的时候获取鼠标的位置以及鼠标松开的位置，记录在空间内的一个属性内以便获取截图 最好也print出来
 
 if __name__ ==  '__main__':
-    print '测试'
+    print '测试monitor'
     pygame.init()
     screen = pygame.display.set_mode((400, 400), 0, 32)
     pygame.display.set_caption("Button test")

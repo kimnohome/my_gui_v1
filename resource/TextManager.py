@@ -58,44 +58,45 @@ class Font_Brush(Component):  # used to define font instance
         self.font_bold = False           # ->>>>self.font
         self.font_italic = False         # ->>>>self.font
         self.font_size = 16              # ->>>>self.font
-        self.font_type = 'arial'         # ->>>>self.font
+        # self.font_type = 'arial'       # ->>>>self.font
+        self.font_type = 'SimHei'        # ->>>>self.font
         self.is_sys_font = True          # ->>>>self.font
-        self.text = 'Love U Forever'          # ->>>>self.text_fmt
-        self.text_color = (255, 0, 0)         # ->>>>self.text_fmt
-        self.text_bg_color = 'no'             # ->>>>self.text_fmt
-        self.text_anti = True                      # ->>>>self.text_fmt
+        self.text = 'Love U Forever'        # ->>>>self.text_fmt
+        self.text_color = (255, 0, 0)       # ->>>>self.text_fmt
+        self.text_bg_color = 'no'           # ->>>>self.text_fmt
+        self.text_anti = False              # ->>>>self.text_fmt
 
-        self.position = (0, 0)  # ->>>>draw text surface
-        self.font = pygame.font.SysFont('arial', 16)
+        self.position = (0, 0)              # ->>>>draw text surface
+        self.font = pygame.font.SysFont(self.font_type, self.font_size)
         self.text_fmt = self.font.render(self.text, self.text_anti, self.text_color)  # no font bg
 
-    def setText(self, text):
+    def setText(self, text):              # ->>>>self.text_fmt
         self.text = text
         self.__update_text_fmt()
 
-    def setText_color(self, color):
+    def setText_color(self, color):      # ->>>>self.text_fmt
         self.text_color = color
         self.__update_text_fmt()
 
-    def setSysFont(self, font_type):
-        self.is_sys_font = True
-        self.font_type = font_type
-        self.__update_font()
-
-    def setText_bg_color(self, color):
+    def setText_bg_color(self, color):   # ->>>>self.text_fmt
         self.text_bg_color = color
         self.__update_text_fmt()
 
-    def setText_anti(self, anti):
-        self.text_bg_color = color
+    def setText_anti(self, anti):         # ->>>>self.text_fmt
+        self.text_bg_color = anti
         self.__update_text_fmt()
 
-    def setFont(self, font_type):
+    def setFont(self, font_type):          # ->>>>self.font
         self.is_sys_font = False
         self.font_type = font_type
         self.__update_font()
 
-    def setFontsize(self, font_size):
+    def setSysFont(self, font_type):       # ->>>>self.font
+        self.is_sys_font = True
+        self.font_type = font_type
+        self.__update_font()
+
+    def setFontsize(self, font_size):      # ->>>>self.font
         self.font_size = font_size
         self.__update_font()
 
@@ -126,17 +127,12 @@ class Font_Brush(Component):  # used to define font instance
         else:
             self.text_fmt = self.font.render(self.text,  # set font bg
                                              self.text_anti, self.text_color, self.text_bg_color)
+        #print self.text_fmt.get_rect()
 
     def Update(self, surface_handle=[]):
-        #print type(surface_handle)
+        # print type(surface_handle)
         if type(surface_handle) == pygame.Surface:
-            if self.text_bg_color == 'no':
-                text_fmt = self.font.render(self.text, self.text_anti, self.text_color)  # no font bg
-            else:
-                text_fmt = self.font.render(self.text, self.text_anti, self.text_color,
-                                            self.text_bg_color)  # set font bg
-                #  绘制文字
-            surface_handle.blit(text_fmt, self.position)
+            surface_handle.blit(self.text_fmt, self.position)
         else:
             self.__surface_handle.blit(self.text_fmt, self.position)
 
@@ -153,8 +149,8 @@ if __name__ == '__main__':
     imageObj = pygame.image.load(image).convert_alpha()
     text_1 = Font_Brush(imageObj)
     text_2 = Font_Brush(screen)
-    text_2.font_color = (0, 255, 0)
-    text_2.setText('Come On')
+    text_2.setText_color((0, 0, 0))
+    text_2.setText(u'123')
     while True:
         event = pygame.event.wait()
         if event.type == pygame.QUIT:

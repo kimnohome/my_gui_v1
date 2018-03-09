@@ -17,6 +17,6 @@ class CanversManager(object):
     def removeComponent(self,component):
         self.componentList.remove(component)
 
-    def UpdateComponent(self,screen):
+    def UpdateComponent(self, screen):
         for component in self.componentList:
             component.Update(screen)

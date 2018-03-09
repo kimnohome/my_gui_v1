@@ -117,7 +117,7 @@ if __name__ == "__main__":
     button.set_text('test button')
     button2 = MyButton(upImageFilename, inImageFilename,
                       downImageFilename, (250, 200), (100, 50))
-    button2.set_text('button2')
+    button2.set_text('A')
     button2.set_text_size(50)
     myButtonListener1 = ButtonListener(button)
     myButtonListener2 = ButtonListener(button2)
