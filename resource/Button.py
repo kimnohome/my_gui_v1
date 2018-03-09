@@ -37,8 +37,15 @@ class Button(Component):
     def set_text(self, text):  # 默认字体
         self.text_obj = Font_Brush()
         self.text_obj.setText(text)
-        self.text_obj.font_color = (0, 0, 0)
-        self.text_obj.font_size = 20
+        self.text_obj.font_color = (0, 0, 255)
+        self.text_obj.setFontsize(20)
+        text_rec = self.text_obj.text_fmt.get_rect()
+        text_rec.center = (self.imageWidth / 2, self.imageHeight / 2)
+        self.text_obj.position = text_rec
+        # 突然想起来你重新设置字体大小，就要重新更改字的位置，因为是根据中央写字的
+
+    def set_text_size(self, text_size):
+        self.text_obj.setFontsize(text_size)
         text_rec = self.text_obj.text_fmt.get_rect()
         text_rec.center = (self.imageWidth / 2, self.imageHeight / 2)
         self.text_obj.position = text_rec
@@ -106,11 +113,17 @@ if __name__ == "__main__":
             print '按了MyButton一下'
 
     button = MyButton(upImageFilename, inImageFilename,
-                      downImageFilename, (150, 100), (200, 50))
+                      downImageFilename, (150, 100), (100, 50))
     button.set_text('test button')
-    myButtonListener = ButtonListener(button)
+    button2 = MyButton(upImageFilename, inImageFilename,
+                      downImageFilename, (250, 200), (100, 50))
+    button2.set_text('button2')
+    button2.set_text_size(50)
+    myButtonListener1 = ButtonListener(button)
+    myButtonListener2 = ButtonListener(button2)
     eventManager = EventManager()
-    eventManager.addListener(myButtonListener)
+    eventManager.addListener(myButtonListener1)
+    eventManager.addListener(myButtonListener2)
     while True:
         event = pygame.event.wait()
         if event.type == pygame.QUIT:
@@ -120,4 +133,5 @@ if __name__ == "__main__":
         #  button.render(screen)
         eventManager.eventManage(event)
         button.Update(screen)
+        button2.Update(screen)
         pygame.display.update()

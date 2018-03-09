@@ -42,72 +42,104 @@ class TextManager(Component):  # no use,后面打算把TextManager弄成和Canva
     def is_Overlap(self):
         pass
 
-
+# 这个类写得有点乱我给你说，大致思路理一下：
+# 首先设置font（字体类型，大小）得到一个font类型的变量
+# 然后调用font的render函数输入文字内容，颜色抗锯齿等等得到文字surface
+# 最后blit把这个surface画上去，显示出文字
+# 所以整个设置内容应该是：
+# 1）更改文字属性（文字内容，颜色，抗锯齿等等），要更新text_fmt变量
+# 2）更改文字类型，大小要更新font变量，然后还要更新text_fmt才能更新显示出去的内容
+# 打算更改针对两个变量的方法按照不同的名字来定，我得重新改方法名字，到时候又是要花点功夫
 class Font_Brush(Component):  # used to define font instance
-    def __init__(self, surface_handle):#这里出错了，如何多态初始化，好像并不能有多个初始化函数python
+    def __init__(self, surface_handle=[]):  # 这里出错了，如何多态初始化，好像并不能有多个初始化函数python
         self.__surface_handle = surface_handle
-        self.position = (0, 0)
-        self.text = 'Love U Forever'
-        self.font_color = (255, 0, 0)
-        self.bg_color = 'no'
-        self.font_bold = False  # 是否粗体
-        self.anti = True
-        self.font_italic = False  # 是否斜体
-        self.font_size = 16
-        self.font = pygame.font.SysFont('arial', 16)
-        self.text_fmt = self.font.render(self.text, self.anti, self.font_color)  # no font bg
+        # print type(self.__surface_handle)
 
-    def __init__(self):
-        self.__surface_handle = []
-        self.position = (0, 0)
-        self.text = 'Love U Forever'
-        self.font_color = (255, 0, 0)
-        self.bg_color = 'no'
-        self.font_bold = False  # 是否粗体
-        self.anti = True
-        self.font_italic = False  # 是否斜体
-        self.font_size = 16
+        self.font_bold = False           # ->>>>self.font
+        self.font_italic = False         # ->>>>self.font
+        self.font_size = 16              # ->>>>self.font
+        self.font_type = 'arial'         # ->>>>self.font
+        self.is_sys_font = True          # ->>>>self.font
+        self.text = 'Love U Forever'          # ->>>>self.text_fmt
+        self.text_color = (255, 0, 0)         # ->>>>self.text_fmt
+        self.text_bg_color = 'no'             # ->>>>self.text_fmt
+        self.text_anti = True                      # ->>>>self.text_fmt
+
+        self.position = (0, 0)  # ->>>>draw text surface
         self.font = pygame.font.SysFont('arial', 16)
+        self.text_fmt = self.font.render(self.text, self.text_anti, self.text_color)  # no font bg
 
     def setText(self, text):
         self.text = text
-        if self.bg_color == 'no':
-            self.text_fmt = self.font.render(self.text, self.anti, self.font_color)  # no font bg
-        else:
-            self.text_fmt = self.font.render(self.text, self.anti, self.font_color,
-                                          self.bg_color)  # set font bg
+        self.__update_text_fmt()
 
-    def setSysFont(self, font, font_size):
-        self.font_size = font_size
-        self.font = pygame.font.SysFont(font, font_size)
+    def setText_color(self, color):
+        self.text_color = color
+        self.__update_text_fmt()
 
-    def setFont(self, font, font_size):
+    def setSysFont(self, font_type):
+        self.is_sys_font = True
+        self.font_type = font_type
+        self.__update_font()
+
+    def setText_bg_color(self, color):
+        self.text_bg_color = color
+        self.__update_text_fmt()
+
+    def setText_anti(self, anti):
+        self.text_bg_color = color
+        self.__update_text_fmt()
+
+    def setFont(self, font_type):
+        self.is_sys_font = False
+        self.font_type = font_type
+        self.__update_font()
+
+    def setFontsize(self, font_size):
         self.font_size = font_size
-        self.font = pygame.font.Font(font, font_size)
+        self.__update_font()
 
     def setSurface(self, surface):
         self.__surface_handle = surface
 
     def font_set_bold(self, font_bold):
         self.font_bold = font_bold  # 是否粗体
-        self.font.set_bold(font_bold)
+        self.__update_font()
 
     def font_set_italic(self, italic):
         self.font_italic = italic  # 是否粗体
-        self.font.set_italic(italic)
+        self.__update_font()
 
-    def Update(self):
-        # 绘制文字
-        self.__surface_handle.blit(self.text_fmt, self.position)
-
-    def Update(self, surface_handle):
-        if self.bg_color == 'no':
-            text_fmt = self.font.render(self.text, self.anti, self.font_color)  # no font bg
+    def __update_font(self):
+        if self.is_sys_font:
+            self.font = pygame.font.SysFont(self.font_type, self.font_size)
         else:
-            text_fmt = self.font.render(self.text, self.anti, self.font_color,
-                                          self.bg_color)  # set font bg
-        # 绘制文字
-        surface_handle.blit(text_fmt, self.position)
+            self.font = pygame.font.Font(self.font_type, self.font_size)
+        self.font.set_italic(self.font_italic)
+        self.font.set_bold(self.font_bold)
+        self.__update_text_fmt()
+
+    def __update_text_fmt(self):
+        if self.text_bg_color != tuple:
+            self.text_fmt = self.font.render(self.text,  # no font bg
+                                             self.text_anti, self.text_color)
+        else:
+            self.text_fmt = self.font.render(self.text,  # set font bg
+                                             self.text_anti, self.text_color, self.text_bg_color)
+
+    def Update(self, surface_handle=[]):
+        #print type(surface_handle)
+        if type(surface_handle) == pygame.Surface:
+            if self.text_bg_color == 'no':
+                text_fmt = self.font.render(self.text, self.text_anti, self.text_color)  # no font bg
+            else:
+                text_fmt = self.font.render(self.text, self.text_anti, self.text_color,
+                                            self.text_bg_color)  # set font bg
+                #  绘制文字
+            surface_handle.blit(text_fmt, self.position)
+        else:
+            self.__surface_handle.blit(self.text_fmt, self.position)
+
 
 if __name__ == '__main__':
     import os
