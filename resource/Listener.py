@@ -31,5 +31,8 @@ class EventManager(object):
         self.listenerList.remove(listener)
 
     def eventManage(self, event):
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
         for listener in self.listenerList:
             listener.onChange(event)

@@ -81,16 +81,28 @@ class ButtonListener(Listener):
         if event.type == MOUSEMOTION:
             if self.button.is_Overlap():
                 self.button.mouse_In()
+                self.mouse_in()
             else:
                 self.button.mouse_Up()
         elif event.type == MOUSEBUTTONDOWN:  # left mouse down
             if self.button.is_Overlap():
                 self.button.mouse_Down()
                 self.button.onClick()
+                self.mouse_down()
             else:
                 self.button.mouse_Up()
         elif event.type == MOUSEBUTTONUP:
             self.button.mouse_Up()
+            self.mouse_up()
+
+    def mouse_in(self):
+        pass
+
+    def mouse_down(self):
+        pass
+
+    def mouse_up(self):
+        pass
 
 
 if __name__ == "__main__":
